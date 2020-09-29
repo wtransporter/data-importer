@@ -49,6 +49,9 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('clients') }}">Clients</a>
+                            </li>
                             @if (Auth::user()->hasRole('admin'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('login') }}">Import</a>
