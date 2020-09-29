@@ -18,6 +18,8 @@ Route::get('/', function () {
 });
 
 Route::get('clients', 'ClientsController@index')->name('clients');
+Route::get('import', 'ImportsController@create')->name('import');
+Route::post('import/store', 'ImportsController@store')->name('import.store');
 
 Auth::routes();
 

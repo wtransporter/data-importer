@@ -87,7 +87,7 @@
                             </li>
                             @if (Auth::user()->hasRole('admin'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">Import</a>
+                                    <a class="nav-link" href="{{ route('import') }}">Import</a>
                                 </li>
                             @endif
                             <li class="nav-item dropdown">
