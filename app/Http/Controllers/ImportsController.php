@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Repositories\Importer\Importer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Repositories\Importer\CsvImporter;
 use App\Repositories\Importer\ImporterFactory;
 
 class ImportsController extends Controller
@@ -36,14 +38,17 @@ class ImportsController extends Controller
 
         $fileName = $request->file('file')->getClientOriginalName();
         $type = $request->file('file')->getClientOriginalExtension();
-        if (! $this->extensionCheck($type)) {
-            return redirect()->back()->withErrors('Unsuppordet extension.');
+        // die($type);
+        if (! is_int($this->extensionCheck($type))) {
+            return redirect()->back()->withErrors('Unsupported extension.');
         };
         $path = $request->file('file')->storeAs('public/uploads', $fileName);
         $path = storage_path('app/'.$path);
 
-        $csvImport = ImporterFactory::create(strtoupper($type));
-        $csvImport->import('App\Client', $path);
+        $importer = new Importer(new CsvImporter);
+        $importer->importFile('App\Client', $path);
+        // $csvImport = ImporterFactory::create(strtoupper($type));
+        // $csvImport->import('App\Client', $path);
 
         return redirect()->back()->with('message', 'Successfuly imported.');
     }
