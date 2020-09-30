@@ -62,6 +62,6 @@ class User extends Authenticatable
         if (is_string($role)) {
             $role = Role::whereName($role)->firstOrFail();
         }
-        $this->roles()->sync($role, false);
+        $this->roles()->sync($role);
     }
 }
