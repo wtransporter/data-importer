@@ -36,7 +36,9 @@ class ImportsController extends Controller
 
         $fileName = $request->file('file')->getClientOriginalName();
         $type = $request->file('file')->getClientOriginalExtension();
-
+        if (! $this->extensionCheck($type)) {
+            return redirect()->back()->withErrors('Unsuppordet extension.');
+        };
         $path = $request->file('file')->storeAs('public/uploads', $fileName);
         $path = storage_path('app/'.$path);
 
@@ -49,6 +51,12 @@ class ImportsController extends Controller
     protected function authorizeCheck()
     {
         abort_if(! Auth::user()->hasRole('admin'), 403);
+    }
+
+    public function extensionCheck($extension)
+    {
+        $extensions = array('CSV');
+        return array_search(strtoupper($extension), $extensions);
     }
 
 }
