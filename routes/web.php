@@ -17,10 +17,14 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('clients', 'ClientsController@index')->name('clients');
-Route::get('import', 'ImportsController@create')->name('import');
-Route::post('import/store', 'ImportsController@store')->name('import.store');
+
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('clients', 'ClientsController@index')->name('clients');
+    Route::get('import', 'ImportsController@create')->name('import');
+    Route::post('import/store', 'ImportsController@store')->name('import.store');
+    
+});
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

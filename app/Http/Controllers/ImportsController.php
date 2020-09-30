@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Repositories\Importer\ImporterFactory;
 
@@ -16,6 +17,7 @@ class ImportsController extends Controller
      */
     public function create()
     {
+        $this->authorizeCheck();
         return view('imports.create');
     }
 
@@ -27,6 +29,7 @@ class ImportsController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorizeCheck();
         $request->validate([
             'file' => 'required|mimes:csv,txt'
         ]);
@@ -40,7 +43,12 @@ class ImportsController extends Controller
         $csvImport = ImporterFactory::create(strtoupper($type));
         $csvImport->import('App\Client', $path);
 
-        return redirect()->back();
+        return redirect()->back()->with('message', 'Successfuly imported.');
+    }
+
+    protected function authorizeCheck()
+    {
+        abort_if(! Auth::user()->hasRole('admin'), 403);
     }
 
 }
