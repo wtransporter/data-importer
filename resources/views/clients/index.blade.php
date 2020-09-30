@@ -3,6 +3,7 @@
 @section('content')
     
     <div class="container">
+        @if (count($clients) > 0)
         <p>Male</p>
         <table class="table table-hover">
             <thead>
@@ -49,6 +50,13 @@
                 @endforeach
             </tbody>
         </table>
+        @else
+            <p>No data available.
+                @if (Auth::user()->hasRole('admin'))
+                    <a href="import">Import from file ?</a>
+                @endif
+            </p>
+        @endif
     </div>
     
 @endsection
