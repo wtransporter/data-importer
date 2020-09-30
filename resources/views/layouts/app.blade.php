@@ -99,6 +99,9 @@
                                     <a class="dropdown-item" href="{{ route('roles') }}">
                                         Roles
                                     </a>
+                                    <a class="dropdown-item" href="{{ route('users') }}">
+                                        Users
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
