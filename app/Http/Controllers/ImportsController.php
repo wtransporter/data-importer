@@ -5,13 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\Importer\Importer;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use App\Repositories\Importer\CsvImporter;
-use App\Repositories\Importer\ImporterFactory;
 
 class ImportsController extends Controller
 {
     
+    public function __construct()
+    {
+        $this->middleware('role:admin');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -19,7 +22,6 @@ class ImportsController extends Controller
      */
     public function create()
     {
-        $this->authorizeCheck();
         return view('imports.create');
     }
 
@@ -31,14 +33,13 @@ class ImportsController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorizeCheck();
         $request->validate([
             'file' => 'required|mimes:csv,txt'
         ]);
 
         $fileName = $request->file('file')->getClientOriginalName();
         $type = $request->file('file')->getClientOriginalExtension();
-        // die($type);
+
         if (! is_int($this->extensionCheck($type))) {
             return redirect()->back()->withErrors('Unsupported extension.');
         };
@@ -47,15 +48,8 @@ class ImportsController extends Controller
 
         $importer = new Importer(new CsvImporter);
         $importer->importFile('App\Client', $path);
-        // $csvImport = ImporterFactory::create(strtoupper($type));
-        // $csvImport->import('App\Client', $path);
 
         return redirect()->back()->with('message', 'Successfuly imported.');
-    }
-
-    protected function authorizeCheck()
-    {
-        abort_if(! Auth::user()->hasRole('admin'), 403);
     }
 
     public function extensionCheck($extension)

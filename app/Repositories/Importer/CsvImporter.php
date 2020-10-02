@@ -3,7 +3,6 @@
 namespace App\Repositories\Importer;
 
 use DateTime;
-use App\Imports\ClientsImport;
 
 class CsvImporter implements ImporterInterface
 {

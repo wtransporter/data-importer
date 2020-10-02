@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Client;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ClientsController extends Controller
