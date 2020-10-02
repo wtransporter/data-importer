@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Role;
 use Illuminate\Http\Request;
+use App\Http\Requests\RoleFormRequest;
 use Illuminate\Database\QueryException;
 
 class RolesController extends Controller
@@ -32,21 +33,17 @@ class RolesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\RoleFormRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RoleFormRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'label' => 'required',
-        ]);
+        $attributes = $request->validated();
 
     	try {
-            Role::create([
-                'name' => $request->get('name'),
-                'label' => $request->get('label')
-            ]);
+
+            Role::create($attributes);
+            
     	} catch (QueryException $e) {
             $error_code = $e->errorInfo[1];
             if($error_code == 1062){
