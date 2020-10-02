@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Repositories\Importer\Importer;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ImportFormRequest;
 use App\Repositories\Importer\CsvImporter;
 
 class ImportsController extends Controller
@@ -28,15 +27,11 @@ class ImportsController extends Controller
     /**
      * Store the incoming file.
      *
-     * @param  Request  $request
+     * @param  \App\Http\Requests\ImportFormRequest  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(ImportFormRequest $request)
     {
-        $request->validate([
-            'file' => 'required|mimes:csv,txt'
-        ]);
-
         $fileName = $request->file('file')->getClientOriginalName();
         $type = $request->file('file')->getClientOriginalExtension();
 
