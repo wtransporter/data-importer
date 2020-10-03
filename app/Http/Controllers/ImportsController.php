@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\CsvClientsImport;
 use App\Repositories\Importer\Importer;
 use App\Http\Requests\ImportFormRequest;
 use App\Repositories\Importer\CsvImporter;
@@ -32,17 +33,15 @@ class ImportsController extends Controller
      */
     public function store(ImportFormRequest $request)
     {
-        $fileName = $request->file('file')->getClientOriginalName();
         $type = $request->file('file')->getClientOriginalExtension();
 
         if (! is_int($this->extensionCheck($type))) {
             return redirect()->back()->withErrors('Unsupported extension.');
         };
-        $path = $request->file('file')->storeAs('public/uploads', $fileName);
-        $path = storage_path('app/'.$path);
 
-        $importer = new Importer(new CsvImporter);
-        $importer->importFile('App\Client', $path);
+        //Bindovati u service container ?
+        $importer = new Importer(new CsvImporter(new CsvClientsImport));
+        $importer->importFile($request->file('file'));
 
         return redirect()->back()->with('message', 'Successfuly imported.');
     }

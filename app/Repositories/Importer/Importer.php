@@ -11,9 +11,9 @@ class Importer
         $this->importer = $importer;
     }
 
-    public function importFile($model, $filePath)
+    public function importFile($filePath)
     {
-        $this->importer->import($model, $filePath);
+        $this->importer->import($filePath);
     }
 
 }

@@ -8,10 +8,9 @@ interface ImporterInterface
     /**
      * Import data
      * 
-     * @param $model model to import
      * @param $file file path for import
      * 
      */
-    public function import($model, $file);
+    public function import($file);
 
 }
