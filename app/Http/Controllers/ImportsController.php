@@ -6,6 +6,7 @@ use App\Imports\CsvClientsImport;
 use App\Repositories\Importer\Importer;
 use App\Http\Requests\ImportFormRequest;
 use App\Repositories\Importer\CsvImporter;
+use Carbon\Exceptions\InvalidFormatException;
 
 class ImportsController extends Controller
 {
@@ -33,23 +34,20 @@ class ImportsController extends Controller
      */
     public function store(ImportFormRequest $request)
     {
-        $type = $request->file('file')->getClientOriginalExtension();
-
-        if (! is_int($this->extensionCheck($type))) {
-            return redirect()->back()->withErrors('Unsupported extension.');
-        };
-
         //Bindovati u service container ?
         $importer = new Importer(new CsvImporter(new CsvClientsImport));
-        $importer->importFile($request->file('file'));
+        try {
+            
+            $importer->importFile($request->file('file'));    
+
+        } catch (InvalidFormatException $ex) {
+            return redirect()->back()->withErrors('Wrong date format passed.');            
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('Something went wrong. Check file and extension.');
+        }
 
         return redirect()->back()->with('message', 'Successfuly imported.');
     }
 
-    public function extensionCheck($extension)
-    {
-        $extensions = array('CSV');
-        return array_search(strtoupper($extension), $extensions);
-    }
 
 }

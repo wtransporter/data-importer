@@ -2,8 +2,8 @@
 
 namespace App\Imports;
 
-use DateTime;
 use App\Client;
+use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
@@ -18,13 +18,12 @@ class CsvClientsImport implements ToModel, WithCustomCsvSettings, WithStartRow
     */
     public function model(array $row)
     {
-        $date = DateTime::createFromFormat('d/m/Y', trim($row[3]));
 
         return new Client([
             'first_name'      =>  $row[0],
             'last_name'     =>  $row[1],
             'gender'  =>  $row[2],
-            'date_of_birth'  =>  date_format($date,"Y-m-d")
+            'date_of_birth'  =>  Carbon::createFromFormat('d/m/Y', trim($row[3]))
         ]);
 
     }
