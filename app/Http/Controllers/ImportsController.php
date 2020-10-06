@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Client;
 use App\Imports\CsvClientsImport;
 use App\Repositories\Importer\Importer;
 use App\Http\Requests\ImportFormRequest;
+use App\Http\Resources\ClientCollection;
 use App\Repositories\Importer\CsvImporter;
 use Carbon\Exceptions\InvalidFormatException;
 
@@ -14,6 +16,11 @@ class ImportsController extends Controller
     public function __construct()
     {
         $this->middleware('role:admin');
+    }
+
+    public function index()
+    {
+        return new ClientCollection(Client::adults()->get());
     }
 
     /**
