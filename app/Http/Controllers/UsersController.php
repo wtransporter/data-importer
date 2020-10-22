@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateUserRequest;
 
 class UsersController extends Controller
 {
@@ -20,7 +21,7 @@ class UsersController extends Controller
     }
 
         /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing user.
      *
      * @param  App\User  $user
      * @return \Illuminate\Http\Response
@@ -32,19 +33,14 @@ class UsersController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update an existing user.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Requests\UpdateUserRequest  $request
      * @param  App\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'role' => 'required'
-        ]);
 
         $user->update([
             'name' => $request->get('name'),
@@ -58,10 +54,10 @@ class UsersController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified user from storage.
      *
      * @param  App\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($user)
     {
