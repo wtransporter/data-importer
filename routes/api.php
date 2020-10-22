@@ -18,4 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth.basic')->get('clients', 'ImportsController@index')->name('clients');
+// Route::middleware('auth.basic')->get('clients', 'ImportsController@index')->name('clients');
+Route::get('clients', 'ImportsController@index')->name('clients');

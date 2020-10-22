@@ -37,8 +37,6 @@ class CreateRolesTables extends Migration
                 ->onDelete('cascade');
         });
 
-        Artisan::call('db:seed');
-
     }
 
     /**
