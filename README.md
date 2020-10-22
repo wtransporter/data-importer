@@ -8,7 +8,7 @@ Simple application for CSV import:
 
 ## Api endpoint
 
-- api/clients (list of clients grouped by gender)
+- api/clients (list of clients grouped by gender older than 18)
 
 ## Run project
 
