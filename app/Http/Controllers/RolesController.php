@@ -31,10 +31,10 @@ class RolesController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created role in storage.
      *
      * @param  \App\Http\Requests\RoleFormRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(RoleFormRequest $request)
     {
@@ -55,10 +55,10 @@ class RolesController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified role from storage.
      *
      * @param  \App\Role  $role
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Role $role)
     {
